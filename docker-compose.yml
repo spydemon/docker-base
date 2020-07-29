@@ -3,6 +3,7 @@ version: '2.1'
 services:
     proxy:
         container_name: base-proxy
+        hostname: base-proxy
         image: spydemon/nginx-proxy:0.1
         networks:
             - base
@@ -21,6 +22,7 @@ services:
         expose:
             - "1025"
             - "8025"
+        hostname: base-proxy
         image: mailhog/mailhog:latest
         networks:
             - base
