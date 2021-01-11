@@ -26,6 +26,21 @@ services:
         image: mailhog/mailhog:latest
         networks:
             - base
+    se_grid:
+        container_name: base-se_grid
+        extra_hosts:
+             - "magento24.local:172.17.0.1"
+             - "xemenao.local:172.17.0.1"
+             - "tiroucubo.local:172.17.0.1"
+        hostname: base-se_grid
+        image: spydemon/se-grid-standalone:0.1
+        networks:
+            - base
+        ports:
+            - "6901:5900"
+        # Sharing /dev/shm avoid browsers to randomly crash because shared memory available is insufficient.
+        volumes:
+            - /dev/shm:/dev/shm
 
 networks:
     base:
