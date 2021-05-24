@@ -1,2 +1,4 @@
+/.idea
 /config/ssl/*
 !/config/ssl/.gitkeep
+docker-compose.override.yml

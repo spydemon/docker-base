@@ -1,0 +1,15 @@
+version: '2.1'
+
+services:
+  se_grid:
+    extra_hosts:
+      - "magento24.local:172.17.0.1"
+      - "xemenao.local:172.17.0.1"
+      - "tiroucubo.local:172.17.0.1"
+      - "tiroucubo-test.local:172.17.0.1"
+    volumes:
+      - /home/spydemon/projects/perso/tiroucubo/tests/data/Acceptation:/root/data/tiroucubo
+
+networks:
+  base:
+    external: true
