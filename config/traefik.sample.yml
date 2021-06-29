@@ -1,0 +1,6 @@
+tls:
+  certificates:
+    - certFile: /ssl/example.local.crt
+      keyFile: /ssl/example.local.key
+    - certFile: /ssl/test.local.crt
+      keyFile: /ssl/test.local.key

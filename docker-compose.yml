@@ -1,29 +1,39 @@
-version: '2.1'
+version: '3.3'
 
 services:
     proxy:
+        command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entryPoints.web.address=:80"
+            - "--entryPoints.websecure.address=:443"
+            - "--providers.file.directory=/etc/traefik/dynamic_conf"
         container_name: base-proxy
         hostname: base-proxy
-        image: spydemon/nginx-proxy:0.1
+        image: traefik:v2.4
         networks:
             - base
         ports:
             - "80:80"
             - "443:443"
+            - "8080:8080"
         userns_mode: 'host'
         volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-            - ./config/ssl:/etc/nginx/certs
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./config/ssl:/ssl
+            - ./config/traefik.yml:/etc/traefik/dynamic_conf/conf.yml
     mail:
         container_name: base-mailhog
-        environment:
-            VIRTUAL_HOST: mail.local
-            VIRTUAL_PORT: 8025
         expose:
             - "1025"
             - "8025"
         hostname: base-proxy
         image: mailhog/mailhog:latest
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.mail.rule=Host(`mail.local`)"
+            - "traefik.http.services.mail.loadbalancer.server.port=8025"
         networks:
             - base
     se_grid:
